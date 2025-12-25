@@ -43,7 +43,27 @@ impl Runner for D01 {
     }
 
     fn part2(&self) -> String {
-        "".into()
+        let mut dial = 50;
+        let mut counter = 0;
+
+        for j in &self.data {
+            match j {
+                Turn::R(x) => {
+                    if dial + x >= MODULUS {
+                        counter += (x + dial) / MODULUS;
+                    }
+                    dial = (dial + x).rem_euclid(MODULUS);
+                }
+                Turn::L(x) => {
+                    if dial - *x <= MIN {
+                        counter += ((*x - dial) / MODULUS) + if dial == 0 { 0 } else { 1 };
+                    }
+
+                    dial = (dial - *x).rem_euclid(MODULUS);
+                }
+            }
+        }
+        counter.to_string()
     }
 
     fn parse(&mut self) {
