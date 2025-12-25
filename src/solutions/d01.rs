@@ -1,0 +1,67 @@
+use std::{fs, path::Path};
+
+use super::Runner;
+
+enum Turn {
+    R(i32),
+    L(i32),
+}
+
+#[derive(Default)]
+pub struct D01 {
+    data: Vec<Turn>,
+}
+
+impl D01 {
+    pub fn new() -> Self {
+        Self::default()
+    }
+}
+
+impl Runner for D01 {
+    fn part1(&self) -> String {
+        let mut sum = 50;
+        let mut counter = 0;
+
+        let min = 0;
+        let max = 99;
+        let modulus = max - min + 1;
+
+        for j in &self.data {
+            match j {
+                Turn::R(x) => sum += x,
+                Turn::L(x) => sum -= x,
+            }
+
+            if sum < min {
+                sum += modulus;
+            }
+            sum %= modulus;
+
+            if sum == 0 {
+                counter += 1;
+            }
+        }
+        counter.to_string()
+    }
+
+    fn part2(&self) -> String {
+        "".into()
+    }
+
+    fn parse(&mut self) {
+        let path = Path::new("./sols/day01.txt");
+        let file = fs::read_to_string(path).unwrap();
+
+        for l in file.lines() {
+            let direction = &l[..1];
+            let turn = &l[1..];
+
+            self.data.push(match direction {
+                "R" => Turn::R(turn.parse::<i32>().unwrap()),
+                "L" => Turn::L(turn.parse::<i32>().unwrap()),
+                _ => Turn::R(0),
+            });
+        }
+    }
+}
