@@ -19,7 +19,7 @@ impl D01 {
 }
 
 const MIN: i32 = 0;
-const MAX: i32 = 0;
+const MAX: i32 = 99;
 const MODULUS: i32 = MAX - MIN + 1;
 
 impl Runner for D01 {
