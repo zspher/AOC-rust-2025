@@ -18,27 +18,24 @@ impl D01 {
     }
 }
 
+const MIN: i32 = 0;
+const MAX: i32 = 0;
+const MODULUS: i32 = MAX - MIN + 1;
+
 impl Runner for D01 {
     fn part1(&self) -> String {
-        let mut sum = 50;
+        let mut dial = 50;
         let mut counter = 0;
-
-        let min = 0;
-        let max = 99;
-        let modulus = max - min + 1;
 
         for j in &self.data {
             match j {
-                Turn::R(x) => sum += x,
-                Turn::L(x) => sum -= x,
+                Turn::R(x) => dial += x,
+                Turn::L(x) => dial -= x,
             }
 
-            if sum < min {
-                sum += modulus;
-            }
-            sum %= modulus;
+            dial = (dial).rem_euclid(MODULUS);
 
-            if sum == 0 {
+            if dial == 0 {
                 counter += 1;
             }
         }
