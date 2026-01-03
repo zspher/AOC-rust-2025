@@ -17,6 +17,29 @@ impl D02 {
         Self::default()
     }
 }
+fn is_repeated(num: u64) -> bool {
+    let inp = num.to_string();
+    let len = inp.len();
+    for gap in 1..=(len / 2) {
+        let mut repeated = true;
+        if !len.is_multiple_of(gap) {
+            continue;
+        }
+        let prev = &inp[0..=gap - 1];
+        for j in (gap..len).step_by(gap) {
+            let comp = &inp[j..=j + gap - 1];
+
+            if comp != prev {
+                repeated = false
+            }
+        }
+
+        if repeated {
+            return repeated;
+        }
+    }
+    false
+}
 
 impl Runner for D02 {
     fn part1(&self) -> String {
@@ -30,7 +53,7 @@ impl Runner for D02 {
 
                 let mid = num.len() / 2;
                 if num[0..mid] == num[mid..] {
-                    sum += num.parse::<u64>().unwrap();
+                    sum += i;
                 }
             }
         }
@@ -38,7 +61,16 @@ impl Runner for D02 {
     }
 
     fn part2(&self) -> String {
-        "".into()
+        let mut sum: u64 = 0;
+        for r in &self.data {
+            for i in r.start..=r.end {
+                if is_repeated(i) {
+                    println!("{i}");
+                    sum += i;
+                }
+            }
+        }
+        sum.to_string()
     }
 
     fn parse(&mut self) {
