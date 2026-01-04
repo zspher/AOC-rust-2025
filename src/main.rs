@@ -1,5 +1,5 @@
 mod solutions;
 
 fn main() {
-    solutions::run(2);
+    solutions::run(3);
 }

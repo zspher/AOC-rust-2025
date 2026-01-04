@@ -1,8 +1,10 @@
 mod d01;
 mod d02;
+mod d03;
 
 pub use d01::D01;
 pub use d02::D02;
+pub use d03::D03;
 
 pub trait Runner {
     fn part1(&self) -> String;
@@ -20,6 +22,7 @@ pub fn run(day: i32) {
     match day {
         1 => output(D01::new()),
         2 => output(D02::new()),
+        3 => output(D03::new()),
         _ => println!("Day {day} not unimplemented"),
     }
 }
